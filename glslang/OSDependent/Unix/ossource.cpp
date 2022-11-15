@@ -76,7 +76,8 @@ void OS_CleanupThreadData(void)
 #if defined(__ANDROID__) || defined(__Fuchsia__)
     DetachThreadLinux(NULL);
 #else
-    int old_cancel_state, old_cancel_type;
+    int old_cancel_state;
+    // , old_cancel_type;
     void *cleanupArg = NULL;
 
     //
@@ -88,7 +89,7 @@ void OS_CleanupThreadData(void)
     //
     // Put the thread in deferred cancellation mode.
     //
-    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &old_cancel_type);
+    // pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &old_cancel_type);
 
     //
     // Pop cleanup handler and execute it prior to unregistering the cleanup handler.
@@ -98,7 +99,7 @@ void OS_CleanupThreadData(void)
     //
     // Restore the thread's previous cancellation mode.
     //
-    pthread_setcanceltype(old_cancel_state, NULL);
+    // pthread_setcanceltype(old_cancel_state, NULL);
 #endif
 }
 
