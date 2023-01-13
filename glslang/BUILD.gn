@@ -31,6 +31,7 @@ config("src_glslang_config") {
     "-Wno-sign-compare",
     "-Wno-missing-field-initializers",
     "-Wno-unused-parameter",
+    "-Wno-unused-variable",
   ]
 
   defines = deqp_common_defines
@@ -113,7 +114,7 @@ ohos_source_set("MachineIndependent_source") {
     "//third_party/glslang/glslang/MachineIndependent/RemoveTree.cpp",
     "//third_party/glslang/glslang/MachineIndependent/Scan.cpp",
     "//third_party/glslang/glslang/MachineIndependent/ShaderLang.cpp",
-    "//third_party/glslang/glslang/MachineIndependent/SpirvIntrinsics.cpp",
+    #"//third_party/glslang/glslang/MachineIndependent/SpirvIntrinsics.cpp",
     "//third_party/glslang/glslang/MachineIndependent/SymbolTable.cpp",
     "//third_party/glslang/glslang/MachineIndependent/Versions.cpp",
     "//third_party/glslang/glslang/MachineIndependent/attribute.cpp",
