@@ -24,7 +24,7 @@ config("src_glslang_config") {
     "-fexceptions",
   ]
   cflags_cc += [
-    "-fPIC", 
+    "-fPIC",
     "-Wno-reorder",
     "-fno-rtti",
     "-fno-exceptions",
@@ -48,9 +48,7 @@ config("src_glslang_config") {
 
 #lib OSDependent
 ohos_source_set("OSDependent_source") {
-  sources = [
-    "//third_party/glslang/glslang/OSDependent/Unix/ossource.cpp",
-  ]
+  sources = [ "//third_party/glslang/glslang/OSDependent/Unix/ossource.cpp" ]
   include_dirs = [
     "//third_party/glslang/glslang/OSDependent",
     "//third_party/zlib/src",
@@ -114,6 +112,7 @@ ohos_source_set("MachineIndependent_source") {
     "//third_party/glslang/glslang/MachineIndependent/RemoveTree.cpp",
     "//third_party/glslang/glslang/MachineIndependent/Scan.cpp",
     "//third_party/glslang/glslang/MachineIndependent/ShaderLang.cpp",
+
     #"//third_party/glslang/glslang/MachineIndependent/SpirvIntrinsics.cpp",
     "//third_party/glslang/glslang/MachineIndependent/SymbolTable.cpp",
     "//third_party/glslang/glslang/MachineIndependent/Versions.cpp",
@@ -131,6 +130,7 @@ ohos_source_set("MachineIndependent_source") {
     "//third_party/glslang/glslang/MachineIndependent/preprocessor/PpTokens.cpp",
     "//third_party/glslang/glslang/MachineIndependent/propagateNoContraction.cpp",
     "//third_party/glslang/glslang/MachineIndependent/reflection.cpp",
+
     #"//third_party/vk-gl-cts/build/external/glslang/cmake_pch.hxx",
     #"//third_party/vk-gl-cts/build/external/glslang/cmake_pch.hxx.cxx",
   ]
@@ -143,9 +143,9 @@ ohos_source_set("MachineIndependent_source") {
   include_dirs += deqp_common_include_dirs
 
   deps = [
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
-    ":libdeqp_OSDependent",
     ":libdeqp_GenericCodeGen",
+    ":libdeqp_OSDependent",
+    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
 
   configs = [ ":src_glslang_config" ]
@@ -159,9 +159,8 @@ ohos_static_library("libdeqp_MachineIndependent") {
 
 #lib glslang
 ohos_source_set("glslang_source") {
-  sources = [
-    "//third_party/glslang/glslang/CInterface/glslang_c_interface.cpp",
-  ]
+  sources =
+      [ "//third_party/glslang/glslang/CInterface/glslang_c_interface.cpp" ]
   include_dirs = [
     "//third_party/zlib/src",
     "//third_party/vk-gl-cts/build/include",
@@ -172,10 +171,10 @@ ohos_source_set("glslang_source") {
   include_dirs += deqp_common_include_dirs
 
   deps = [
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
-    ":libdeqp_OSDependent",
-    ":libdeqp_MachineIndependent",
     ":libdeqp_GenericCodeGen",
+    ":libdeqp_MachineIndependent",
+    ":libdeqp_OSDependent",
+    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
   configs = [ ":src_glslang_config" ]
 }
