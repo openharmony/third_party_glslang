@@ -25,7 +25,7 @@ config("OGLCompiler_config") {
   ]
 
   cflags_cc += [
-    "-fPIC", 
+    "-fPIC",
     "-Wno-reorder",
     "-fno-rtti",
     "-fno-exceptions",
@@ -45,12 +45,8 @@ config("OGLCompiler_config") {
 }
 
 ohos_source_set("OGLCompiler_source") {
-  sources = [
-    "//third_party/glslang/OGLCompilersDLL/InitializeDll.cpp" 
-  ]
-  include_dirs = [
-    "//third_party/zlib/src",
-  ]
+  sources = [ "//third_party/glslang/OGLCompilersDLL/InitializeDll.cpp" ]
+  include_dirs = [ "//third_party/zlib/src" ]
   include_dirs += deqp_common_include_dirs
 
   deps = [

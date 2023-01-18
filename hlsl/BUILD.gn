@@ -24,11 +24,11 @@ config("hlsl_config") {
     "-fexceptions",
   ]
   cflags_cc += [
-    "-fPIC", 
+    "-fPIC",
     "-Wno-reorder",
     "-fno-rtti",
     "-fno-exceptions",
-  ] 
+  ]
 
   defines = deqp_common_defines
   defines -= [
@@ -43,9 +43,7 @@ config("hlsl_config") {
 }
 
 ohos_source_set("hlsl_source") {
-  sources = [
-    "//third_party/glslang/hlsl/stub.cpp",
-  ]
+  sources = [ "//third_party/glslang/hlsl/stub.cpp" ]
   include_dirs = [
     "//third_party/zlib/src",
     "//third_party/glslang/glslang/Include",

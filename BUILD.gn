@@ -131,7 +131,6 @@ template("glslang_sources_common") {
       "glslang/Include/PoolAlloc.h",
       "glslang/Include/ResourceLimits.h",
       "glslang/Include/ShHandle.h",
-      "glslang/Include/SpirvIntrinsics.h",
       "glslang/Include/Types.h",
       "glslang/Include/arrays.h",
       "glslang/Include/intermediate.h",
@@ -152,7 +151,6 @@ template("glslang_sources_common") {
       "glslang/MachineIndependent/Scan.h",
       "glslang/MachineIndependent/ScanContext.h",
       "glslang/MachineIndependent/ShaderLang.cpp",
-      "glslang/MachineIndependent/SpirvIntrinsics.cpp",
       "glslang/MachineIndependent/SymbolTable.cpp",
       "glslang/MachineIndependent/SymbolTable.h",
       "glslang/MachineIndependent/Versions.cpp",
@@ -248,8 +246,6 @@ template("glslang_sources_common") {
       ]
     }
 
-    include_dirs = [ "${target_gen_dir}/include" ]
-
     deps = [ ":glslang_build_info" ]
 
     if (invoker.enable_opt) {
@@ -257,8 +253,9 @@ template("glslang_sources_common") {
         "${spirv_tools_dir}:spvtools_opt",
         "${spirv_tools_dir}:spvtools_val",
       ]
-      include_dirs += [ "${spirv_tools_dir}/include" ]
     }
+
+    include_dirs = [ "${target_gen_dir}/include" ]
 
     configs -= _configs_to_remove
     configs += _configs_to_add
@@ -305,10 +302,7 @@ executable("glslang_validator") {
   ]
   public_configs = [ ":glslang_hlsl" ]
 
-  include_dirs = [
-    "${target_gen_dir}/include",
-    "${spirv_tools_dir}/include",
-  ]
+  include_dirs = [ "${target_gen_dir}/include" ]
 
   configs -= _configs_to_remove
   configs += _configs_to_add
@@ -319,8 +313,6 @@ executable("spirv-remap") {
   defines = [ "ENABLE_OPT=1" ]
   deps = [ ":glslang_sources" ]
 
-  include_dirs = [ "${spirv_tools_dir}/include" ]
-
   configs -= _configs_to_remove
   configs += _configs_to_add
 }
@@ -330,9 +322,9 @@ import("//build/ohos.gni")
 group("glslang") {
   deps = [
     "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
-    "//third_party/glslang/hlsl:libdeqp_hlsl",
-    "//third_party/glslang/SPIRV:libdeqp_spvremapper",
     "//third_party/glslang/SPIRV:libdeqp_spirv",
+    "//third_party/glslang/SPIRV:libdeqp_spvremapper",
     "//third_party/glslang/glslang:libdeqp_glslang",
+    "//third_party/glslang/hlsl:libdeqp_hlsl",
   ]
 }
