@@ -76,8 +76,7 @@ void OS_CleanupThreadData(void)
 #if defined(__ANDROID__) || defined(__Fuchsia__)
     DetachThreadLinux(NULL);
 #else
-    int old_cancel_state;
-    // , old_cancel_type;
+    int old_cancel_state, old_cancel_type;
     void *cleanupArg = NULL;
 
     //
@@ -89,7 +88,7 @@ void OS_CleanupThreadData(void)
     //
     // Put the thread in deferred cancellation mode.
     //
-    // pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &old_cancel_type);
+    //pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &old_cancel_type);
 
     //
     // Pop cleanup handler and execute it prior to unregistering the cleanup handler.
@@ -99,7 +98,7 @@ void OS_CleanupThreadData(void)
     //
     // Restore the thread's previous cancellation mode.
     //
-    // pthread_setcanceltype(old_cancel_state, NULL);
+    //pthread_setcanceltype(old_cancel_state, NULL);
 #endif
 }
 
@@ -173,18 +172,12 @@ namespace {
     pthread_mutex_t gMutex;
 }
 
-static void InitMutex(void)
+void InitGlobalLock()
 {
   pthread_mutexattr_t mutexattr;
   pthread_mutexattr_init(&mutexattr);
   pthread_mutexattr_settype(&mutexattr, PTHREAD_MUTEX_RECURSIVE);
   pthread_mutex_init(&gMutex, &mutexattr);
-}
-
-void InitGlobalLock()
-{
-  static pthread_once_t once = PTHREAD_ONCE_INIT;
-  pthread_once(&once, InitMutex);
 }
 
 void GetGlobalLock()

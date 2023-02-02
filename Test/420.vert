@@ -159,4 +159,3 @@ void qlod()
 }
 
 layout(binding=0) writeonly uniform image1D badArray[];
-layout(binding = 74) uniform sampler2D u_sampler0[6];

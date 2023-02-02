@@ -4,6 +4,7 @@ spv.stereoViewRendering.vert
 // Id's are bound by 27
 
                               Capability Shader
+                              Capability Geometry
                               Capability ShaderViewportIndexLayerNV
                               Capability ShaderViewportMaskNV
                               Capability ShaderStereoViewNV

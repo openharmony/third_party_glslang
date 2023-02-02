@@ -1,5 +1,5 @@
 
-void ComputeShaderFunction()
+float ComputeShaderFunction()
 {
     AllMemoryBarrier();
     AllMemoryBarrierWithGroupSync();
@@ -7,5 +7,7 @@ void ComputeShaderFunction()
     DeviceMemoryBarrierWithGroupSync();
     GroupMemoryBarrier();
     GroupMemoryBarrierWithGroupSync();
+
+    return 0.0;
 }
 
