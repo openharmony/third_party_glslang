@@ -58,6 +58,6 @@ ohos_source_set("OGLCompiler_source") {
 
 ohos_static_library("libdeqp_OGLCompiler") {
   deps = [ ":OGLCompiler_source" ]
-  part_name = "graphic_standard"
+  part_name = "graphic_2d"
   subsystem_name = "graphic"
 }

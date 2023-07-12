@@ -57,6 +57,6 @@ ohos_source_set("hlsl_source") {
 
 ohos_shared_library("libdeqp_hlsl") {
   deps = [ ":hlsl_source" ]
-  part_name = "graphic_standard"
+  part_name = "graphic_2d"
   subsystem_name = "graphic"
 }

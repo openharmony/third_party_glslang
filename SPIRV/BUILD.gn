@@ -75,7 +75,7 @@ ohos_source_set("SPIRV_source") {
 
 ohos_shared_library("libdeqp_spirv") {
   deps = [ ":SPIRV_source" ]
-  part_name = "graphic_standard"
+  part_name = "graphic_2d"
   subsystem_name = "graphic"
 }
 
@@ -99,6 +99,6 @@ ohos_source_set("SPVRemapper_source") {
 
 ohos_shared_library("libdeqp_spvremapper") {
   deps = [ ":SPVRemapper_source" ]
-  part_name = "graphic_standard"
+  part_name = "graphic_2d"
   subsystem_name = "graphic"
 }
