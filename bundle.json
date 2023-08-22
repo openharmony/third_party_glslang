@@ -1,7 +1,7 @@
 {
     "name": "@ohos/glslang",
     "description": "This repository contains glslang for Khronos Conformance Testing Suite.",
-    "version": "11.0.0",
+    "version": "3.2",
     "license": "3-Clause BSD License",
     "publishAs": "code-segment",
     "segment": {
