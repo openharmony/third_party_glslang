@@ -32,8 +32,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 declare_args() {
-  build_with_chromium = false
-  linux_use_bundled_binutils_override = true
-  ignore_elf32_limitations = true
-  use_system_xcode = true
+    build_with_chromium = false
+    linux_use_bundled_binutils_override = true
+    ignore_elf32_limitations = true
+    use_system_xcode = true
 }
