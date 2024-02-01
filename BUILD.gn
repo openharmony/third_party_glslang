@@ -31,7 +31,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import("//build_overrides/glslang.gni")
+import("build_overrides/glslang.gni")
 
 # Both Chromium and Fuchsia use by default a set of warning errors
 # that is far too strict to compile this project. These are also
@@ -284,12 +284,12 @@ template("glslang_sources_common") {
 }
 
 glslang_sources_common("glslang_lib_sources") {
-  enable_opt = true
+  enable_opt = false
   enable_hlsl = true
 }
 
 glslang_sources_common("glslang_sources") {
-  enable_opt = true
+  enable_opt = false
   enable_hlsl = true
 }
 
