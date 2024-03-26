@@ -41,7 +41,7 @@ namespace glslang {
 // Thread Local Storage Operations
 //
 typedef void* OS_TLSIndex;
-#define OS_INVALID_TLS_INDEX nullptr
+#define OS_INVALID_TLS_INDEX ((void*)0)
 
 OS_TLSIndex OS_AllocTLSIndex();
 bool        OS_SetTLSValue(OS_TLSIndex nIndex, void *lpvValue);
@@ -53,6 +53,8 @@ void GetGlobalLock();
 void ReleaseGlobalLock();
 
 typedef unsigned int (*TThreadEntrypoint)(void*);
+
+void OS_CleanupThreadData(void);
 
 void OS_DumpMemoryCounters();
 

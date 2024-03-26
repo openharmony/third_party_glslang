@@ -73,9 +73,9 @@ EShLanguage GetShaderStage(const std::string& stage)
     } else if (stage == "rcall") {
         return EShLangCallable;
     } else if (stage == "task") {
-        return EShLangTask;
+        return EShLangTaskNV;
     } else if (stage == "mesh") {
-        return EShLangMesh;
+        return EShLangMeshNV;
     } else {
         assert(0 && "Unknown shader stage");
         return EShLangCount;

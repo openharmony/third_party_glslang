@@ -29,8 +29,6 @@ config("SPIRV_config") {
     "-fno-rtti",
     "-fno-exceptions",
     "-Wno-sign-compare",
-    "-Wno-unused-parameter",
-    "-std=c++11",
   ]
 
   defines = deqp_common_defines
