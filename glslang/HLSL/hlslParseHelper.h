@@ -87,7 +87,6 @@ public:
     void handleFunctionBody(const TSourceLoc&, TFunction&, TIntermNode* functionBody, TIntermNode*& node);
     void remapEntryPointIO(TFunction& function, TVariable*& returnValue, TVector<TVariable*>& inputs, TVector<TVariable*>& outputs);
     void remapNonEntryPointIO(TFunction& function);
-    TIntermNode* handleDeclare(const TSourceLoc&, TIntermTyped*);
     TIntermNode* handleReturnValue(const TSourceLoc&, TIntermTyped*);
     void handleFunctionArgument(TFunction*, TIntermTyped*& arguments, TIntermTyped* newArg);
     TIntermTyped* handleAssign(const TSourceLoc&, TOperator, TIntermTyped* left, TIntermTyped* right);
@@ -95,7 +94,6 @@ public:
     TIntermTyped* handleFunctionCall(const TSourceLoc&, TFunction*, TIntermTyped*);
     TIntermAggregate* assignClipCullDistance(const TSourceLoc&, TOperator, int semanticId, TIntermTyped* left, TIntermTyped* right);
     TIntermTyped* assignPosition(const TSourceLoc&, TOperator, TIntermTyped* left, TIntermTyped* right);
-    TIntermTyped* assignFromFragCoord(const TSourceLoc&, TOperator, TIntermTyped* left, TIntermTyped* right);
     void decomposeIntrinsic(const TSourceLoc&, TIntermTyped*& node, TIntermNode* arguments);
     void decomposeSampleMethods(const TSourceLoc&, TIntermTyped*& node, TIntermNode* arguments);
     void decomposeStructBufferMethods(const TSourceLoc&, TIntermTyped*& node, TIntermNode* arguments);
@@ -147,14 +145,14 @@ public:
     void declareTypedef(const TSourceLoc&, const TString& identifier, const TType&);
     void declareStruct(const TSourceLoc&, TString& structName, TType&);
     TSymbol* lookupUserType(const TString&, TType&);
-    TIntermNode* declareVariable(const TSourceLoc&, const TString& identifier, TType&, TIntermTyped* initializer = nullptr);
+    TIntermNode* declareVariable(const TSourceLoc&, const TString& identifier, TType&, TIntermTyped* initializer = 0);
     void lengthenList(const TSourceLoc&, TIntermSequence& list, int size, TIntermTyped* scalarInit);
     TIntermTyped* handleConstructor(const TSourceLoc&, TIntermTyped*, const TType&);
     TIntermTyped* addConstructor(const TSourceLoc&, TIntermTyped*, const TType&);
     TIntermTyped* convertArray(TIntermTyped*, const TType&);
     TIntermTyped* constructAggregate(TIntermNode*, const TType&, int, const TSourceLoc&);
     TIntermTyped* constructBuiltIn(const TType&, TOperator, TIntermTyped*, const TSourceLoc&, bool subset);
-    void declareBlock(const TSourceLoc&, TType&, const TString* instanceName = nullptr);
+    void declareBlock(const TSourceLoc&, TType&, const TString* instanceName = 0);
     void declareStructBufferCounter(const TSourceLoc& loc, const TType& bufferType, const TString& name);
     void fixBlockLocations(const TSourceLoc&, TQualifier&, TTypeList&, bool memberWithLocation, bool memberWithoutLocation);
     void fixXfbOffsets(TQualifier&, TTypeList&);
@@ -171,10 +169,10 @@ public:
     void unnestAnnotations() { --annotationNestingLevel; }
     int getAnnotationNestingLevel() { return annotationNestingLevel; }
     void pushScope()         { symbolTable.push(); }
-    void popScope()          { symbolTable.pop(nullptr); }
+    void popScope()          { symbolTable.pop(0); }
 
     void pushThisScope(const TType&, const TVector<TFunctionDeclarator>&);
-    void popThisScope()      { symbolTable.pop(nullptr); }
+    void popThisScope()      { symbolTable.pop(0); }
 
     void pushImplicitThis(TVariable* thisParameter) { implicitThisStack.push_back(thisParameter); }
     void popImplicitThis() { implicitThisStack.pop_back(); }
@@ -244,7 +242,6 @@ protected:
     TIntermSymbol* makeInternalVariableNode(const TSourceLoc&, const char* name, const TType&) const;
     TVariable* declareNonArray(const TSourceLoc&, const TString& identifier, const TType&, bool track);
     void declareArray(const TSourceLoc&, const TString& identifier, const TType&, TSymbol*&, bool track);
-    TIntermNode* executeDeclaration(const TSourceLoc&, TVariable* variable);
     TIntermNode* executeInitializer(const TSourceLoc&, TIntermTyped* initializer, TVariable* variable);
     TIntermTyped* convertInitializerList(const TSourceLoc&, const TType&, TIntermTyped* initializer, TIntermTyped* scalarInit);
     bool isScalarConstructor(const TIntermNode*);
@@ -256,12 +253,12 @@ protected:
 
     // Array and struct flattening
     TIntermTyped* flattenAccess(TIntermTyped* base, int member);
-    TIntermTyped* flattenAccess(long long uniqueId, int member, TStorageQualifier outerStorage, const TType&, int subset = -1);
+    TIntermTyped* flattenAccess(int uniqueId, int member, TStorageQualifier outerStorage, const TType&, int subset = -1);
     int findSubtreeOffset(const TIntermNode&) const;
     int findSubtreeOffset(const TType&, int subset, const TVector<int>& offsets) const;
     bool shouldFlatten(const TType&, TStorageQualifier, bool topLevel) const;
     bool wasFlattened(const TIntermTyped* node) const;
-    bool wasFlattened(long long id) const { return flattenMap.find(id) != flattenMap.end(); }
+    bool wasFlattened(int id) const { return flattenMap.find(id) != flattenMap.end(); }
     int  addFlattenedMember(const TVariable&, const TType&, TFlattenData&, const TString& name, bool linkage,
                             const TQualifier& outerQualifier, const TArraySizes* builtInArraySizes);
 
@@ -270,8 +267,8 @@ protected:
     void splitBuiltIn(const TString& baseName, const TType& memberType, const TArraySizes*, const TQualifier&);
     const TType& split(const TType& type, const TString& name, const TQualifier&);
     bool wasSplit(const TIntermTyped* node) const;
-    bool wasSplit(long long id) const { return splitNonIoVars.find(id) != splitNonIoVars.end(); }
-    TVariable* getSplitNonIoVar(long long id) const;
+    bool wasSplit(int id) const { return splitNonIoVars.find(id) != splitNonIoVars.end(); }
+    TVariable* getSplitNonIoVar(int id) const;
     void addPatchConstantInvocation();
     void fixTextureShadowModes();
     void finalizeAppendMethods();
@@ -389,7 +386,7 @@ protected:
     //
     TVector<TSymbol*> ioArraySymbolResizeList;
 
-    TMap<long long, TFlattenData> flattenMap;
+    TMap<int, TFlattenData> flattenMap;
 
     // IO-type map. Maps a pure symbol-table form of a structure-member list into
     // each of the (up to) three kinds of IO, as each as different allowed decorations,
@@ -402,7 +399,7 @@ protected:
     TMap<const TTypeList*, tIoKinds> ioTypeMap;
 
     // Structure splitting data:
-    TMap<long long, TVariable*> splitNonIoVars;  // variables with the built-in interstage IO removed, indexed by unique ID.
+    TMap<int, TVariable*> splitNonIoVars;  // variables with the built-in interstage IO removed, indexed by unique ID.
 
     // Structuredbuffer shared types.  Typically there are only a few.
     TVector<TType*> structBufferTypes;
@@ -491,18 +488,18 @@ protected:
     struct tShadowTextureSymbols {
         tShadowTextureSymbols() { symId.fill(-1); }
 
-        void set(bool shadow, long long id) { symId[int(shadow)] = id; }
-        long long get(bool shadow) const { return symId[int(shadow)]; }
+        void set(bool shadow, int id) { symId[int(shadow)] = id; }
+        int get(bool shadow) const { return symId[int(shadow)]; }
 
         // True if this texture has been seen with both shadow and non-shadow modes
         bool overloaded() const { return symId[0] != -1 && symId[1] != -1; }
-        bool isShadowId(long long id) const { return symId[1] == id; }
+        bool isShadowId(int id) const { return symId[1] == id; }
 
     private:
-        std::array<long long, 2> symId;
+        std::array<int, 2> symId;
     };
 
-    TMap<long long, tShadowTextureSymbols*> textureShadowVariant;
+    TMap<int, tShadowTextureSymbols*> textureShadowVariant;
     bool parsingEntrypointParameters;
 };
 

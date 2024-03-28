@@ -161,10 +161,8 @@ bool HlslGrammar::acceptDeclarationList(TIntermNode*& nodeList)
             return true;
 
         // declaration
-        if (! acceptDeclaration(nodeList)) {
-            expected("declaration");
+        if (! acceptDeclaration(nodeList))
             return false;
-        }
     } while (true);
 
     return true;
@@ -3244,7 +3242,7 @@ bool HlslGrammar::acceptConstructor(TIntermTyped*& node)
         }
 
         // hook it up
-        node = parseContext.handleFunctionCall(token.loc, constructorFunction, arguments);
+        node = parseContext.handleFunctionCall(arguments->getLoc(), constructorFunction, arguments);
 
         return node != nullptr;
     }
@@ -3428,7 +3426,7 @@ bool HlslGrammar::acceptCompoundStatement(TIntermNode*& retStatement)
         }
     }
     if (compoundStatement)
-        compoundStatement->setOperator(intermediate.getDebugInfo() ? EOpScope : EOpSequence);
+        compoundStatement->setOperator(EOpSequence);
 
     retStatement = compoundStatement;
 
@@ -3794,7 +3792,7 @@ bool HlslGrammar::acceptIterationStatement(TIntermNode*& statement, const TAttri
         parseContext.unnestLooping();
         --parseContext.controlFlowNestingLevel;
 
-        loopNode = intermediate.addLoop(statement, condition, nullptr, false, loc);
+        loopNode = intermediate.addLoop(statement, condition, 0, false, loc);
         statement = loopNode;
         break;
 
