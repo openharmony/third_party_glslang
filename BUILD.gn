@@ -114,10 +114,10 @@ template("glslang_sources_common") {
 
     sources = [
       "SPIRV/GLSL.ext.AMD.h",
+      "SPIRV/GLSL.ext.ARM.h",
       "SPIRV/GLSL.ext.EXT.h",
       "SPIRV/GLSL.ext.KHR.h",
       "SPIRV/GLSL.ext.NV.h",
-      "SPIRV/GLSL.ext.ARM.h",
       "SPIRV/GLSL.ext.QCOM.h",
       "SPIRV/GLSL.std.450.h",
       "SPIRV/GlslangToSpv.cpp",
@@ -294,9 +294,9 @@ glslang_sources_common("glslang_sources") {
 
 source_set("glslang_default_resource_limits_sources") {
   sources = [
-    "glslang/ResourceLimits/ResourceLimits.cpp",
-    "glslang/Public/ResourceLimits.h",
     "glslang/Include/ResourceLimits.h",
+    "glslang/Public/ResourceLimits.h",
+    "glslang/ResourceLimits/ResourceLimits.cpp",
   ]
   public_configs = [ ":glslang_public" ]
 
@@ -316,8 +316,8 @@ executable("glslang_validator") {
   deps = [
     ":glslang_build_info",
     ":glslang_default_resource_limits_sources",
-    ":glslang_sources",
     ":glslang_extension_headers",
+    ":glslang_sources",
   ]
   public_configs = [ ":glslang_hlsl" ]
 
