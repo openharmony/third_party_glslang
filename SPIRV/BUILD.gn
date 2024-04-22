@@ -25,12 +25,12 @@ config("SPIRV_config") {
   ]
   cflags_cc += [
     "-fPIC",
+    "-std=c++17",
     "-Wno-reorder",
     "-fno-rtti",
     "-fno-exceptions",
     "-Wno-sign-compare",
     "-Wno-unused-parameter",
-    "-std=c++11",
   ]
 
   defines = deqp_common_defines
@@ -67,7 +67,7 @@ ohos_source_set("SPIRV_source") {
   include_dirs += deqp_common_include_dirs
 
   deps = [
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
+    #"//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
     "//third_party/glslang/glslang:libdeqp_GenericCodeGen",
     "//third_party/glslang/glslang:libdeqp_MachineIndependent",
     "//third_party/glslang/glslang:libdeqp_OSDependent",

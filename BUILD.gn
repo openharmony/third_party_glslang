@@ -113,13 +113,12 @@ template("glslang_sources_common") {
     }
 
     sources = [
-      "OGLCompilersDLL/InitializeDll.cpp",
-      "OGLCompilersDLL/InitializeDll.h",
       "SPIRV/GLSL.ext.AMD.h",
       "SPIRV/GLSL.ext.ARM.h",
       "SPIRV/GLSL.ext.EXT.h",
       "SPIRV/GLSL.ext.KHR.h",
       "SPIRV/GLSL.ext.NV.h",
+      "SPIRV/GLSL.ext.QCOM.h",
       "SPIRV/GLSL.std.450.h",
       "SPIRV/GlslangToSpv.cpp",
       "SPIRV/GlslangToSpv.h",
@@ -284,20 +283,20 @@ template("glslang_sources_common") {
 }
 
 glslang_sources_common("glslang_lib_sources") {
-  enable_opt = false
+  enable_opt = true
   enable_hlsl = true
 }
 
 glslang_sources_common("glslang_sources") {
-  enable_opt = false
+  enable_opt = true
   enable_hlsl = true
 }
 
 source_set("glslang_default_resource_limits_sources") {
   sources = [
-    "StandAlone/ResourceLimits.cpp",
     "glslang/Include/ResourceLimits.h",
     "glslang/Public/ResourceLimits.h",
+    "glslang/ResourceLimits/ResourceLimits.cpp",
   ]
   public_configs = [ ":glslang_public" ]
 
@@ -346,10 +345,8 @@ import("//build/ohos.gni")
 
 group("glslang") {
   deps = [
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
     "//third_party/glslang/SPIRV:libdeqp_spirv",
     "//third_party/glslang/SPIRV:libdeqp_spvremapper",
     "//third_party/glslang/glslang:libdeqp_glslang",
-    "//third_party/glslang/hlsl:libdeqp_hlsl",
   ]
 }

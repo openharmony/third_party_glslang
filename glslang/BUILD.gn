@@ -25,6 +25,7 @@ config("src_glslang_config") {
   ]
   cflags_cc += [
     "-fPIC",
+    "-std=c++17",
     "-Wno-reorder",
     "-fno-rtti",
     "-fno-exceptions",
@@ -144,7 +145,8 @@ ohos_source_set("MachineIndependent_source") {
   deps = [
     ":libdeqp_GenericCodeGen",
     ":libdeqp_OSDependent",
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
+
+    #"//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
 
   configs = [ ":src_glslang_config" ]
@@ -173,7 +175,8 @@ ohos_source_set("glslang_source") {
     ":libdeqp_GenericCodeGen",
     ":libdeqp_MachineIndependent",
     ":libdeqp_OSDependent",
-    "//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
+
+    #"//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
   configs = [ ":src_glslang_config" ]
 }
