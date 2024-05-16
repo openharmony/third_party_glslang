@@ -31,6 +31,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import("//build/ohos.gni")
 import("build_overrides/glslang.gni")
 
 # Both Chromium and Fuchsia use by default a set of warning errors
@@ -276,9 +277,13 @@ template("glslang_sources_common") {
       ]
       include_dirs += [ "${spirv_tools_dir}/include" ]
     }
-
-    configs -= _configs_to_remove
-    configs += _configs_to_add
+    if (build_ohos_sdk) {
+      defines += [ "OH_SDK" ]
+      cflags += [ "-std=c++17" ]
+    } else {
+      configs -= _configs_to_remove
+      configs += _configs_to_add
+    }
   }
 }
 
@@ -288,7 +293,7 @@ glslang_sources_common("glslang_lib_sources") {
 }
 
 glslang_sources_common("glslang_sources") {
-  enable_opt = true
+  enable_opt = false
   enable_hlsl = true
 }
 
@@ -299,20 +304,29 @@ source_set("glslang_default_resource_limits_sources") {
     "glslang/ResourceLimits/ResourceLimits.cpp",
   ]
   public_configs = [ ":glslang_public" ]
-
-  configs -= _configs_to_remove
-  configs += _configs_to_add
+  if (!build_ohos_sdk) {
+    configs -= _configs_to_remove
+    configs += _configs_to_add
+  }
 }
 
-executable("glslang_validator") {
+ohos_executable("glslang_validator") {
   sources = [
     "StandAlone/DirStackFileIncluder.h",
     "StandAlone/StandAlone.cpp",
   ]
   if (!is_win) {
-    cflags = [ "-Woverflow" ]
+    cflags = [
+      "-Woverflow",
+      "-std=c++17",
+    ]
+  } else {
+    cflags = [ "-std=c++17" ]
   }
-  defines = [ "ENABLE_OPT=1" ]
+  defines = [
+    "ENABLE_OPT=1",
+    "OH_SDK",
+  ]
   deps = [
     ":glslang_build_info",
     ":glslang_default_resource_limits_sources",
@@ -325,23 +339,24 @@ executable("glslang_validator") {
     "${target_gen_dir}/include",
     "${spirv_tools_dir}/include",
   ]
-
-  configs -= _configs_to_remove
-  configs += _configs_to_add
+  install_enable = true
+  part_name = "graphic_2d"
+  subsystem_name = "graphic"
 }
 
-executable("spirv-remap") {
+ohos_executable("spirv-remap") {
   sources = [ "StandAlone/spirv-remap.cpp" ]
-  defines = [ "ENABLE_OPT=1" ]
+  defines = [
+    "ENABLE_OPT=1",
+    "OH_SDK",
+  ]
   deps = [ ":glslang_sources" ]
-
+  cflags = [ "-std=c++17" ]
   include_dirs = [ "${spirv_tools_dir}/include" ]
-
-  configs -= _configs_to_remove
-  configs += _configs_to_add
+  install_enable = true
+  part_name = "graphic_2d"
+  subsystem_name = "graphic"
 }
-
-import("//build/ohos.gni")
 
 group("glslang") {
   deps = [

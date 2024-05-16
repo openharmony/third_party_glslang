@@ -39,7 +39,7 @@
 
 #include <cstdio>
 
-#if !defined(__Fuchsia__)
+#if !defined(__Fuchsia__) && !defined(OH_SDK)
 #include <sys/resource.h>
 #endif
 
