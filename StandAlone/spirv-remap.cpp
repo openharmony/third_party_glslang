@@ -37,7 +37,11 @@
 #include <fstream>
 #include <cstring>
 #include <stdexcept>
+#ifndef OH_SDK
 #include <filesystem>
+#else
+#include <sys/stat.h>
+#endif
 
 //
 // Include remapper
@@ -90,8 +94,11 @@ namespace {
         fp.open(inFilename, std::fstream::in | std::fstream::binary);
 
         if (fp.fail())
+#ifndef OH_SDK
             errHandler("error opening file for read: ");
-
+#else
+            errHandler("error opening file for read, errno : " + std::to_string(errno));
+#endif // OH_SDK
         // Reserve space (for efficiency, not for correctness)
         fp.seekg(0, fp.end);
         spv.reserve(size_t(fp.tellg()) / sizeof(SpvWord));
@@ -362,6 +369,17 @@ namespace {
 
 } // namespace
 
+#ifdef OH_SDK
+static bool IsDirectory(const std::string& path)
+{
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0) {
+        return false;
+    }
+    return S_ISDIR(info.st_mode);
+}
+#endif // OH_SDK
+
 int main(int argc, char** argv)
 {
     std::vector<std::string> inputFiles;
@@ -386,8 +404,11 @@ int main(int argc, char** argv)
 
     const bool isMultiInput      = inputFiles.size() > 1;
     const bool isMultiOutput     = outputDirOrFiles.size() > 1;
+#ifndef OH_SDK
     const bool isSingleOutputDir = !isMultiOutput && std::filesystem::is_directory(outputDirOrFiles[0]);
-
+#else
+    const bool isSingleOutputDir = !isMultiOutput && IsDirectory(outputDirOrFiles[0]);
+#endif
     if (isMultiInput && !isMultiOutput && !isSingleOutputDir)
         usage(argv[0], "Output is not a directory.");
 
