@@ -12492,37 +12492,35 @@ yyerrlab:
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
-      {
-        yypcontext_t yyctx
-          = {yyssp, yytoken};
-        char const *yymsgp = YY_("syntax error");
-        int yysyntax_error_status;
-        yysyntax_error_status = yysyntax_error (&yymsg_alloc, &yymsg, &yyctx);
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == -1)
-          {
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *,
-                             YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
-            if (yymsg)
-              {
-                yysyntax_error_status
-                  = yysyntax_error (&yymsg_alloc, &yymsg, &yyctx);
-                yymsgp = yymsg;
-              }
-            else
-              {
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = YYENOMEM;
-              }
-          }
-        yyerror (pParseContext, yymsgp);
-        if (yysyntax_error_status == YYENOMEM)
-          YYNOMEM;
-      }
+      yypcontext_t yyctx
+        = {yyssp, yytoken};
+      char const *yymsgp = YY_("syntax error");
+      int yysyntax_error_status;
+      yysyntax_error_status = yysyntax_error (&yymsg_alloc, &yymsg, &yyctx);
+      if (yysyntax_error_status == 0)
+        yymsgp = yymsg;
+      else if (yysyntax_error_status == -1)
+        {
+          if (yymsg != yymsgbuf)
+            YYSTACK_FREE (yymsg);
+          yymsg = YY_CAST (char *,
+                           YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+          if (yymsg)
+            {
+              yysyntax_error_status
+                = yysyntax_error (&yymsg_alloc, &yymsg, &yyctx);
+              yymsgp = yymsg;
+            }
+          else
+            {
+              yymsg = yymsgbuf;
+              yymsg_alloc = sizeof yymsgbuf;
+              yysyntax_error_status = YYENOMEM;
+            }
+        }
+      yyerror (pParseContext, yymsgp);
+      if (yysyntax_error_status == YYENOMEM)
+        YYNOMEM;
     }
 
   if (yyerrstatus == 3)
