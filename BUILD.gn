@@ -288,7 +288,7 @@ template("glslang_sources_common") {
 }
 
 glslang_sources_common("glslang_lib_sources") {
-  enable_opt = true
+  enable_opt = false
   enable_hlsl = true
 }
 
