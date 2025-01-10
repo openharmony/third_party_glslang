@@ -26,8 +26,23 @@
             "third_party": []
         },
         "build": {
-            "sub_component": [],
-            "inner_kits": [],
+            "sub_component": [
+                "//third_party/glslang/SPIRV:glslang",
+                "//third_party/glslang/SPIRV:libdeqp_spvremapper",
+                "//third_party/glslang/glslang:libdeqp_glslang",
+                "//third_party/glslang/glslang:SPIRV_source"
+            ],
+            "inner_kits": [
+                {
+                    "type": "so",
+                    "name": "//third_party/glslang/glslang:glslang",
+                    "header": {
+                      "header_files": [
+                      ],
+                      "header_base": "//third_party/glslang/Public"
+                    }
+                }
+            ],
             "test": []
         }
     }
