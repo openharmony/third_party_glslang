@@ -14,16 +14,9 @@
 # external glslang src glslang build
 
 import("//build/ohos.gni")
-import("//third_party/vk-gl-cts/vk_gl_cts.gni")
 
 config("src_glslang_config") {
-  cflags_cc = deqp_common_cflags_cc
-
-  cflags_cc -= [
-    "-frtti",
-    "-fexceptions",
-  ]
-  cflags_cc += [
+  cflags_cc = [
     "-fPIC",
     "-std=c++17",
     "-Wno-reorder",
@@ -35,12 +28,11 @@ config("src_glslang_config") {
     "-Wno-unused-variable",
   ]
 
-  defines = deqp_common_defines
-  defines -= [
-    "DEQP_SUPPORT_DRM=0",
-    "DEQP_TARGET_NAME=\"Default\"",
-  ]
-  defines += [
+  if (is_mingw) {
+    cflags_cc -= [ "-fPIC" ]
+  }
+
+  defines = [
     "ENABLE_HLSL",
     "ENABLE_OPT=0",
     "GLSLANG_OSINCLUDE_UNIX",
@@ -49,14 +41,18 @@ config("src_glslang_config") {
 
 #lib OSDependent
 ohos_source_set("OSDependent_source") {
-  sources = [ "//third_party/glslang/glslang/OSDependent/Unix/ossource.cpp" ]
+  sources = []
+  if (is_mingw) {
+    sources +=
+        [ "//third_party/glslang/glslang/OSDependent/Windows/ossource.cpp" ]
+  } else {
+    sources += [ "//third_party/glslang/glslang/OSDependent/Unix/ossource.cpp" ]
+  }
   include_dirs = [
     "//third_party/glslang/glslang/OSDependent",
-    "//third_party/zlib/src",
     "//third_party/glslang/glslang/Include",
     "//third_party/glslang/glslang/Public",
   ]
-  include_dirs += deqp_common_include_dirs
 
   deps = []
   configs = [ ":src_glslang_config" ]
@@ -75,11 +71,9 @@ ohos_source_set("GenericCodeGen_source") {
     "//third_party/glslang/glslang/GenericCodeGen/Link.cpp",
   ]
   include_dirs = [
-    "//third_party/zlib/src",
     "//third_party/glslang/glslang/Include",
     "//third_party/glslang/glslang/Public",
   ]
-  include_dirs += deqp_common_include_dirs
 
   deps = []
 
@@ -130,23 +124,16 @@ ohos_source_set("MachineIndependent_source") {
     "//third_party/glslang/glslang/MachineIndependent/preprocessor/PpTokens.cpp",
     "//third_party/glslang/glslang/MachineIndependent/propagateNoContraction.cpp",
     "//third_party/glslang/glslang/MachineIndependent/reflection.cpp",
-
-    #"//third_party/vk-gl-cts/build/external/glslang/cmake_pch.hxx",
-    #"//third_party/vk-gl-cts/build/external/glslang/cmake_pch.hxx.cxx",
   ]
   include_dirs = [
-    "//third_party/zlib/src",
-    "//third_party/vk-gl-cts/build/include",
     "//third_party/glslang/glslang/Include",
     "//third_party/glslang/glslang/Public",
+    "//third_party/glslang",
   ]
-  include_dirs += deqp_common_include_dirs
 
   deps = [
     ":libdeqp_GenericCodeGen",
     ":libdeqp_OSDependent",
-
-    #"//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
 
   configs = [ ":src_glslang_config" ]
@@ -163,21 +150,22 @@ ohos_source_set("glslang_source") {
   sources =
       [ "//third_party/glslang/glslang/CInterface/glslang_c_interface.cpp" ]
   include_dirs = [
-    "//third_party/zlib/src",
-    "//third_party/vk-gl-cts/build/include",
     "//third_party/glslang",
     "//third_party/glslang/glslang/Include",
     "//third_party/glslang/glslang/Public",
   ]
-  include_dirs += deqp_common_include_dirs
 
   deps = [
     ":libdeqp_GenericCodeGen",
-    ":libdeqp_MachineIndependent",
     ":libdeqp_OSDependent",
-
-    #"//third_party/glslang/OGLCompilersDLL:libdeqp_OGLCompiler",
   ]
+
+  if (is_mingw) {
+    deps += [ "//third_party/glslang/SPIRV:libdeqp_spirv" ]
+  } else {
+    deps += [ ":libdeqp_MachineIndependent" ]
+  }
+
   configs = [ ":src_glslang_config" ]
 }
 
