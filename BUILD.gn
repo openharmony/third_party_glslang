@@ -361,10 +361,12 @@ ohos_executable("spirv-remap") {
 ohos_static_library("glslang") {
   deps = [
     ":glslang_default_resource_limits_sources",
+    "//third_party/glslang/SPIRV:SPIRV_source",
     "//third_party/glslang/SPIRV:libdeqp_spirv",
     "//third_party/glslang/SPIRV:libdeqp_spvremapper",
-    "//third_party/glslang/glslang:SPIRV_source",
     "//third_party/glslang/glslang:libdeqp_glslang",
   ]
   public_configs = [ ":glslang_public" ]
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
