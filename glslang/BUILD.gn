@@ -60,8 +60,8 @@ ohos_source_set("OSDependent_source") {
 
 ohos_static_library("libdeqp_OSDependent") {
   deps = [ ":OSDependent_source" ]
-  part_name = "graphic_2d"
-  subsystem_name = "graphic"
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 #lib GenericCodeGen
@@ -82,8 +82,8 @@ ohos_source_set("GenericCodeGen_source") {
 
 ohos_static_library("libdeqp_GenericCodeGen") {
   deps = [ ":GenericCodeGen_source" ]
-  part_name = "graphic_2d"
-  subsystem_name = "graphic"
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 #lib MachineIndependent
@@ -141,8 +141,8 @@ ohos_source_set("MachineIndependent_source") {
 
 ohos_static_library("libdeqp_MachineIndependent") {
   deps = [ ":MachineIndependent_source" ]
-  part_name = "graphic_2d"
-  subsystem_name = "graphic"
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 #lib glslang
@@ -171,6 +171,6 @@ ohos_source_set("glslang_source") {
 
 ohos_static_library("libdeqp_glslang") {
   deps = [ ":glslang_source" ]
-  part_name = "graphic_2d"
-  subsystem_name = "graphic"
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
