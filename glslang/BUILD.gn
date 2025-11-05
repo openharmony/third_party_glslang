@@ -56,6 +56,8 @@ ohos_source_set("OSDependent_source") {
 
   deps = []
   configs = [ ":src_glslang_config" ]
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 ohos_static_library("libdeqp_OSDependent") {
@@ -78,6 +80,8 @@ ohos_source_set("GenericCodeGen_source") {
   deps = []
 
   configs = [ ":src_glslang_config" ]
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 ohos_static_library("libdeqp_GenericCodeGen") {
@@ -137,6 +141,8 @@ ohos_source_set("MachineIndependent_source") {
   ]
 
   configs = [ ":src_glslang_config" ]
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 ohos_static_library("libdeqp_MachineIndependent") {
@@ -167,6 +173,8 @@ ohos_source_set("glslang_source") {
   }
 
   configs = [ ":src_glslang_config" ]
+  part_name = "glslang"
+  subsystem_name = "thirdparty"
 }
 
 ohos_static_library("libdeqp_glslang") {
