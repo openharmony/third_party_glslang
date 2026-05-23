@@ -535,6 +535,8 @@ bool TIntermediate::isConversionAllowed(TOperator op, TIntermTyped* node) const
     //
     // Does the base type even allow the operation?
     //
+    if (!node)
+        return false;
     switch (node->getBasicType()) {
     case EbtVoid:
         return false;
